@@ -1,0 +1,13 @@
+{
+  "source": ["aws.codecommit"],
+  "detail-type": ["CodeCommit Repository State Change"],
+  "resources": ["${RepositoryArn}"],
+  "detail": {
+    "event": [
+      "referenceCreated",
+      "referenceUpdated"
+    ],
+    "referenceType": ["branch"],
+    "referenceName": ["${RepositoryBranch}"]
+  }
+}
