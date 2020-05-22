@@ -9,9 +9,10 @@ data "aws_iam_role" "target_role" {
 }
 
 resource "aws_cloudwatch_event_rule" "trigger" {
-  name          = var.name
-  description   = var.description
-  event_pattern = local.triggers[var.trigger_type]
+  name                = var.name
+  description         = var.description
+  event_pattern       = var.trigger_type != "scheduled" ? local.triggers[var.trigger_type] : null
+  schedule_expression = var.frequency_type != null ? local.frequency[var.frequency_type] : null
 }
 
 resource "aws_cloudwatch_event_target" "target" {

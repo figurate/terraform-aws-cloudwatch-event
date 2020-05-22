@@ -6,10 +6,6 @@ variable "description" {
   description = "Trigger description"
 }
 
-variable "trigger_type" {
-  description = "The type of event trigger (used to derive trigger rules)"
-}
-
 variable "repository_name" {
   description = "Name of the CodeCommit repository"
 }
