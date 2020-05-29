@@ -10,10 +10,16 @@ clean:
 	rm -rf .terraform/
 
 test:
-	$(TERRAFORM) init && $(TERRAFORM) validate
+	$(TERRAFORM) init && $(TERRAFORM) validate && \
+		$(TERRAFORM) init modules/codecommit && $(TERRAFORM) validate modules/codecommit
+		$(TERRAFORM) init modules/codecommit && $(TERRAFORM) validate modules/scheduled
 
 docs:
-	docker run --rm -v "${PWD}:/work" tmknom/terraform-docs markdown ./ >./README.md
+	docker run --rm -v "${PWD}:/work" tmknom/terraform-docs markdown ./ >./README.md && \
+		docker run --rm -v "${PWD}:/work" tmknom/terraform-docs markdown ./modules/codecommit >./modules/codecommit/README.md
+		docker run --rm -v "${PWD}:/work" tmknom/terraform-docs markdown ./modules/scheduled >./modules/scheduled/README.md
 
 format:
-	$(TERRAFORM) fmt -list=true ./
+	$(TERRAFORM) fmt -list=true ./ && \
+		$(TERRAFORM) fmt -list=true ./modules/codecommit
+		$(TERRAFORM) fmt -list=true ./modules/scheduled

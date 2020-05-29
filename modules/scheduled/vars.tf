@@ -12,12 +12,12 @@ variable "frequency_type" {
 
 variable "frequency_rate" {
   description = "A rate of scheduled triggering"
-  default = null
+  default     = null
 }
 
 variable "frequency_cron" {
   description = "A CRON expression defining the trigger schedule"
-  default = null
+  default     = null
 }
 
 variable "target_arn" {
