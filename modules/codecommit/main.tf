@@ -8,6 +8,7 @@ module "event_trigger" {
   description     = var.description
   name            = var.name
   target_arn      = var.target_arn
+  target_name     = var.target_name
   target_role     = var.target_role
   trigger_arn     = data.aws_codecommit_repository.repository.arn
   trigger_context = var.repository_branch

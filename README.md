@@ -23,6 +23,7 @@ No requirements.
 | frequency\_type | A predefined frequency for scheduled triggering (required if `trigger_arn` not specified) | `any` | `null` | no |
 | name | Name of the CloudWatch Event trigger | `any` | n/a | yes |
 | target\_arn | ARN of the CloudWatch Event target | `any` | n/a | yes |
+| target\_name | Function name for Lambda targets (used to configure invocation permissions) | `any` | `null` | no |
 | target\_role | Name of the IAM role assumed by the target | `any` | n/a | yes |
 | trigger\_arn | ARN of the event trigger (required if `frequency` not specified) | `any` | `null` | no |
 | trigger\_context | Additional contextual value relevant to the event trigger | `any` | `null` | no |

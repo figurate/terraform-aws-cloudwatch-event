@@ -20,3 +20,12 @@ resource "aws_cloudwatch_event_target" "target" {
   role_arn = var.target_role != null ? data.aws_iam_role.target_role[0].arn : null
   rule     = aws_cloudwatch_event_rule.trigger.name
 }
+
+resource "aws_lambda_permission" "trigger" {
+  count         = var.target_name != null ? 1 : 0
+  statement_id  = var.name
+  action        = "lambda:InvokeFunction"
+  function_name = var.target_name
+  principal     = "events.amazonaws.com"
+  source_arn    = aws_cloudwatch_event_rule.trigger.arn
+}
