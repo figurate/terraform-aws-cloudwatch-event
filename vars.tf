@@ -6,13 +6,9 @@ variable "description" {
   description = "Trigger description"
 }
 
-variable "trigger_type" {
-  description = "The type of event trigger (used to derive trigger rules)"
-}
-
 variable "frequency_type" {
   description = "A predefined frequency for scheduled triggering (required if `trigger_arn` not specified)"
-  default     = null
+  default     = "hourly_on_weekdays"
 }
 
 variable "frequency_rate" {
@@ -25,15 +21,28 @@ variable "frequency_cron" {
   default     = null
 }
 
-variable "trigger_arn" {
-  description = "ARN of the event trigger (required if `frequency` not specified)"
+variable "event_source" {
+  description = "Source of events for this rule"
   default     = null
 }
 
-variable "trigger_context" {
-  description = "Additional contextual value relevant to the event trigger"
-  default     = null
+variable "event_types" {
+  description = "A list of event types to monitor from the event source"
+  type        = list(string)
+  default     = []
 }
+
+variable "source_arns" {
+  description = "A list of ARNs used to filter the monitored source"
+  default     = []
+}
+
+variable "event_detail" {
+  description = "A map of configuration data specific to the event type"
+  type        = map(any)
+  default     = {}
+}
+
 
 variable "target_arn" {
   description = "ARN of the CloudWatch Event target"
@@ -46,4 +55,25 @@ variable "target_name" {
 
 variable "target_role" {
   description = "Name of the IAM role assumed by the target"
+}
+
+locals {
+  frequency = {
+    // trigger at midnight (UTC) on weekdays..
+    weekdays = "cron(0 0 ? * MON-FRI *)"
+
+    // trigger every hour on weekdays..
+    hourly_on_weekdays = "cron(0 * ? * MON-FRI *)"
+
+    secondly = "rate(1 second)"
+    minutely = "rate(1 minute)"
+    hourly   = "rate(1 hour)"
+    daily    = "rate(1 day)"
+    weekly   = "rate(1 week)"
+    monthly  = "rate(1 month)"
+    yearly   = "rate(1 year)"
+
+    cron = format("cron(%s)", var.frequency_cron)
+    rate = format("rate(%s)", var.frequency_rate)
+  }
 }

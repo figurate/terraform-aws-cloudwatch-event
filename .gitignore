@@ -1,3 +1,4 @@
 # Created by .ignore support plugin (hsz.mobi)
-terraform-aws-cloudwatch-event-trigger.iml
+terraform-aws-cloudwatch-event-rule.iml
 .terraform/
+*.tfstate*

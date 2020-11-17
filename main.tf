@@ -1,6 +1,8 @@
 /**
  * # ![AWS](aws-logo.png) CloudWatch Event Trigger
  *
+ * ![AWS CloudWatch Event Rule](aws_cloudwatch_event_rule.png)
+ *
  * Purpose: Templates for CloudWatch Event triggers.
  */
 data "aws_iam_role" "target_role" {
@@ -8,10 +10,27 @@ data "aws_iam_role" "target_role" {
   name  = var.target_role
 }
 
+data "template_file" "event_pattern" {
+  count    = var.frequency_type != null ? 1 : 0
+  template = <<EOF
+{
+  "source": ["$${EventSource}"],
+  "detail-type": $${EventTypes}
+  $${Resources}$${Detail}
+}
+EOF
+  vars = {
+    EventSource = var.event_source
+    EventTypes  = jsonencode(var.event_types)
+    Resources   = length(var.source_arns) > 0 ? ",\n${jsonencode(var.source_arns)}" : ""
+    Detail      = length(var.event_detail) > 0 ? ",\n${jsonencode(var.event_detail)}" : ""
+  }
+}
+
 resource "aws_cloudwatch_event_rule" "trigger" {
   name                = var.name
   description         = var.description
-  event_pattern       = var.trigger_type != "scheduled" ? local.triggers[var.trigger_type] : null
+  event_pattern       = var.frequency_type == null ? data.template_file.event_pattern[0].rendered : null
   schedule_expression = var.frequency_type != null ? local.frequency[var.frequency_type] : null
 }
 
