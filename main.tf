@@ -1,9 +1,9 @@
 /**
- * # ![AWS](aws-logo.png) CloudWatch Event Trigger
+ * # ![AWS](aws-logo.png) CloudWatch Event Rule
  *
  * ![AWS CloudWatch Event Rule](aws_cloudwatch_event_rule.png)
  *
- * Purpose: Templates for CloudWatch Event triggers.
+ * Purpose: Templates for CloudWatch Event rules.
  */
 data "aws_iam_role" "target_role" {
   count = var.target_role != null ? 1 : 0

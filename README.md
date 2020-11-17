@@ -1,8 +1,8 @@
-# ![AWS](aws-logo.png) CloudWatch Event Trigger
+# ![AWS](aws-logo.png) CloudWatch Event Rule
 
 ![AWS CloudWatch Event Rule](aws\_cloudwatch\_event\_rule.png)
 
-Purpose: Templates for CloudWatch Event triggers.
+Purpose: Templates for CloudWatch Event rules.
 
 ## Requirements
 
