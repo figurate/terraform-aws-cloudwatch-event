@@ -1,8 +1,12 @@
 SHELL:=/bin/bash
 AWS_DEFAULT_REGION?=ap-southeast-2
 
+ifneq (, $(shell which docker))
 TERRAFORM_VERSION=0.13.4
 TERRAFORM=docker run --rm -v "${PWD}:/work" -v "${HOME}:/root" -e AWS_DEFAULT_REGION=$(AWS_DEFAULT_REGION) -e http_proxy=$(http_proxy) --net=host -w /work hashicorp/terraform:$(TERRAFORM_VERSION)
+else
+TERRAFORM=terraform
+endif
 
 TERRAFORM_DOCS=docker run --rm -v "${PWD}:/work" tmknom/terraform-docs
 
@@ -23,7 +27,8 @@ clean:
 
 validate:
 	$(TERRAFORM) init && $(TERRAFORM) validate && \
-		$(TERRAFORM) init modules/codecommit && $(TERRAFORM) validate modules/codecommit
+		$(TERRAFORM) init modules/codecommit && $(TERRAFORM) validate modules/codecommit && \
+		$(TERRAFORM) init modules/health && $(TERRAFORM) validate modules/health
 
 test: validate
 	$(CHECKOV) -d /work
@@ -34,11 +39,13 @@ diagram:
 
 docs: diagram
 	$(TERRAFORM_DOCS) markdown ./ >./README.md && \
-		$(TERRAFORM_DOCS) markdown ./modules/codecommit >./modules/codecommit/README.md
+		$(TERRAFORM_DOCS) markdown ./modules/codecommit >./modules/codecommit/README.md && \
+		$(TERRAFORM_DOCS) markdown ./modules/health >./modules/health/README.md
 
 format:
 	$(TERRAFORM) fmt -list=true ./ && \
-		$(TERRAFORM) fmt -list=true ./modules/codecommit
+		$(TERRAFORM) fmt -list=true ./modules/codecommit && \
+		$(TERRAFORM) fmt -list=true ./modules/health
 
 example:
 	$(TERRAFORM) init -upgrade examples/$(EXAMPLE) && $(TERRAFORM) plan -input=false examples/$(EXAMPLE)

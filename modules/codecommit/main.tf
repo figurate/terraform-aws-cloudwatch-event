@@ -2,7 +2,7 @@ data "aws_codecommit_repository" "repository" {
   repository_name = var.repository_name
 }
 
-module "event_trigger" {
+module "cloudwatch_event" {
   source = "../.."
 
   description  = var.description
