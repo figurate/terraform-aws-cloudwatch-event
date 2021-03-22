@@ -57,6 +57,12 @@ variable "target_role" {
   description = "Name of the IAM role assumed by the target"
 }
 
+variable "tags" {
+  description = "Tags for the event rule"
+  type        = map(any)
+  default     = {}
+}
+
 locals {
   frequency = {
     // trigger at midnight (UTC) on weekdays..

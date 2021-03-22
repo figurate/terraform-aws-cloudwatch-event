@@ -32,6 +32,7 @@ resource "aws_cloudwatch_event_rule" "trigger" {
   description         = var.description
   event_pattern       = var.frequency_type == null ? data.template_file.event_pattern[0].rendered : null
   schedule_expression = var.frequency_type != null ? local.frequency[var.frequency_type] : null
+  tags                = var.tags
 }
 
 resource "aws_cloudwatch_event_target" "target" {
