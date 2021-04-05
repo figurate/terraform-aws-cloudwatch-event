@@ -28,6 +28,7 @@ No requirements.
 | frequency\_type | A predefined frequency for scheduled triggering (required if `trigger_arn` not specified) | `string` | `"hourly_on_weekdays"` | no |
 | name | Name of the CloudWatch Event trigger | `any` | n/a | yes |
 | source\_arns | A list of ARNs used to filter the monitored source | `list` | `[]` | no |
+| tags | Tags for the event rule | `map(any)` | `{}` | no |
 | target\_arn | ARN of the CloudWatch Event target | `any` | n/a | yes |
 | target\_name | Function name for Lambda targets (used to configure invocation permissions) | `any` | `null` | no |
 | target\_role | Name of the IAM role assumed by the target | `any` | n/a | yes |
