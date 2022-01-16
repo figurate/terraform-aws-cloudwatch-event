@@ -12,8 +12,8 @@ clean:
 
 validate:
 	$(TERRAFORM) init && $(TERRAFORM) validate && \
-		$(TERRAFORM) init modules/codecommit && $(TERRAFORM) validate modules/codecommit && \
-		$(TERRAFORM) init modules/health && $(TERRAFORM) validate modules/health
+		$(TERRAFORM) -chdir=modules/codecommit init && $(TERRAFORM) -chdir=modules/codecommit validate && \
+		$(TERRAFORM) -chdir=modules/health init && $(TERRAFORM) -chdir=modules/health validate
 
 test: validate
 	$(CHECKOV) -d /work
