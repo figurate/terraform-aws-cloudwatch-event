@@ -1,10 +1,10 @@
 # ![AWS](aws-logo.png) CloudWatch Event Rule
 
+[![CI](https://github.com/figurate/terraform-aws-cloudwatch-event/actions/workflows/main.yml/badge.svg)](https://github.com/figurate/terraform-aws-cloudwatch-event/actions/workflows/main.yml)
+
 ![AWS CloudWatch Event Rule](aws\_cloudwatch\_event\_rule.png)
 
 Purpose: Templates for CloudWatch Event rules.
-
-![main workflow](https://github.com/figurate/terraform-aws-cloudwatch-event/actions/workflows/main.yml/badge.svg)
 
 ## Requirements
 
