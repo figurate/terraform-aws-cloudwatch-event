@@ -12,9 +12,7 @@ clean:
 	rm -rf .terraform/
 
 validate:
-	$(TERRAFORM) init -upgrade && $(TERRAFORM) validate && \
-		$(TERRAFORM) -chdir=modules/codecommit init -upgrade && $(TERRAFORM) -chdir=modules/codecommit validate && \
-		$(TERRAFORM) -chdir=modules/health init -upgrade && $(TERRAFORM) -chdir=modules/health validate
+	$(TERRAFORM) init  && $(TERRAFORM) validate
 
 test: validate
 	$(CHECKOV) -d /work
@@ -29,12 +27,10 @@ docs: diagram
 		$(TERRAFORM_DOCS) markdown ./modules/health >./modules/health/README.md
 
 format:
-	$(TERRAFORM) fmt -list=true ./ && \
-		$(TERRAFORM) fmt -list=true ./modules/codecommit && \
-		$(TERRAFORM) fmt -list=true ./modules/health
+	$(TERRAFORM) fmt -list=true -recursive
 
 example:
-	$(TERRAFORM) -chdir=examples/$(EXAMPLE) init -upgrade && $(TERRAFORM) -chdir=examples/$(EXAMPLE) plan -input=false
+	$(TERRAFORM) -chdir=examples/$(EXAMPLE) init  && $(TERRAFORM) -chdir=examples/$(EXAMPLE) plan -input=false
 
 release: test
 	git tag $(VERSION) && git push --tags
